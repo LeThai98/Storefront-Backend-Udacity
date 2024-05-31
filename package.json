@@ -1,0 +1,33 @@
+{
+  "name": "storefront-backend-udacity",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint . --ext .ts",
+    "build": "npx tsc",
+    "prettier": "prettier --single-quote --trailing-comma es5 --write \"src/**/*.ts\"",
+    "start": "nodemon server.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nhuyho/udacity-build-a-storefront-backend.git"
+  },
+  "license": "ISC",
+  "keywords": [],
+  "author": "le hong thai",
+  "devDependencies": {
+    "@types/node": "^20.12.13",
+    "@typescript-eslint/eslint-plugin": "^7.11.0",
+    "@typescript-eslint/parser": "^7.11.0",
+    "eslint": "^8.57.0",
+    "nodemon": "^3.1.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.5"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "prettier": "^3.2.5"
+  }
+}
