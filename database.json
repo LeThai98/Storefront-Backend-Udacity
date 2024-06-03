@@ -1,0 +1,16 @@
+{
+    "dev": {
+      "driver": "pg",
+      "host": "localhost",
+      "database": "thai_shopping",
+      "user": "thai",
+      "password": "123"
+    },
+    "test": {
+      "driver": "pg",
+      "host": "localhost",
+      "database": "thai_shopping_test",
+      "user": "postgres",
+      "password": "123"
+    }
+  }
