@@ -9,13 +9,15 @@
       "@typescript-eslint"
     ],
     "extends": [
-      "eslint:recommended",
-      "plugin:@typescript-eslint/recommended",
-      "plugin:@typescript-eslint/recommended-requiring-type-checking"
+      
+      // "eslint:recommended",
+      // "plugin:@typescript-eslint/recommended",
+      // "plugin:@typescript-eslint/recommended-requiring-type-checking"
     ],
     "rules": {
       // Add any custom rules here
         // "prettier/prettier": 2	
+        
         //  "quotes": ["error", "double"],
         // "no-console": "warn",
         // "comma-dangle": "warn",

@@ -9,7 +9,7 @@
     "test": {
       "driver": "pg",
       "host": "localhost",
-      "database": "thai_shopping_test",
+      "database": "thai_shopping",
       "user": "postgres",
       "password": "123"
     }
