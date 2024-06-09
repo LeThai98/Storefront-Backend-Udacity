@@ -1,5 +1,6 @@
 import { Application, Request, Response } from "express";
 import { User,BaseUser,UsersStore,AuthenUser,UpdatedUser } from "../models/users";
+import {generateTokenByUser, verifyToken, VerifyToken} from "./helpers";
 
 const userStore = new UsersStore();
 
@@ -21,7 +22,9 @@ const createUser = async (req: Request, res: Response) => {
             password: req.body.password as unknown as string
         }
         const newUser = await userStore.create(user);
-        res.json(newUser);
+
+        const token = generateTokenByUser({firstname: newUser.firstname, lastname: newUser.lastname} as VerifyToken);
+        res.json(token);
     } catch (error) {
         res.status(400).send(`Could not create user. Error: ${error}`);
     }
@@ -82,7 +85,10 @@ const authenticateUser = async (req: Request, res: Response) => {
         if(!authenticatedUser){
             return res.status(401).send('Authentication failed');
         }
-        res.json(authenticatedUser);
+
+        const token = generateTokenByUser({firstname: authenticatedUser.firstname, lastname: authenticatedUser.lastname} as VerifyToken);
+
+        res.json(token);
     } catch (error) {
         res.status(400).send(`Could not authenticate user. Error: ${error}`);
     }
@@ -92,8 +98,8 @@ export default function userRoutes(app: Application) {
     app.get('/users', getAllUsers);
     app.post('/users/create', createUser);
     app.get('/users/:id', getUserById);
-    app.put('/users/:id', updateUser);
-    app.delete('/users/:id', deleteUser);
+    app.put('/users/:id', verifyToken, updateUser);
+    app.delete('/users/:id',verifyToken, deleteUser);
     app.post('/users/authenticate', authenticateUser);
 };
 

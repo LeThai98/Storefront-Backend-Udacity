@@ -1,5 +1,6 @@
 import { ProductStore, Product, BaseProduct } from "../models/products";
 import { Request, Response, Application } from "express";
+import {verifyToken} from "./helpers";
 
 const productStore = new ProductStore();
 
@@ -67,11 +68,11 @@ const deleteProduct = async (req: Request, res: Response) => {
 }
 
 const productRoutes = (app: Application) => {
-    app.get('/products', getAllProducts);
-    app.get('/products/:id', getProductById);
-    app.post('/products/create', createProduct);
-    app.put('/products/:id', updateProduct);
-    app.delete('/products/:id', deleteProduct);
+    app.get('/products',verifyToken, getAllProducts);
+    app.get('/products/:id',verifyToken, getProductById);
+    app.post('/products/create',verifyToken, createProduct);
+    app.put('/products/:id',verifyToken, updateProduct);
+    app.delete('/products/:id',verifyToken, deleteProduct);
 }
 
 export default productRoutes;

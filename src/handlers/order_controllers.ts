@@ -1,5 +1,6 @@
 import { Order, OrderStore, OrderDetails, OrderedProduct } from "../models/orders";
 import { Application, Request, Response } from "express";
+import {verifyToken} from "./helpers";
 
 const orderStore = new OrderStore();    
 
@@ -79,8 +80,8 @@ const deleteOrder = async (req: Request, res: Response) => {
 export default function orderRoutes(app: Application){
     app.get('/orders', getAllOrders);
     app.get('/orders/:id', getOrderById);
-    app.post('/orders/create', createOrder);
-    app.put('/orders/:id', updateOrder);
-    app.delete('/orders/:id', deleteOrder);
+    app.post('/orders/create',verifyToken, createOrder);
+    app.put('/orders/:id', verifyToken, updateOrder);
+    app.delete('/orders/:id',verifyToken, deleteOrder);
 }
 
