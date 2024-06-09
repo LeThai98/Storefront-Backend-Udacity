@@ -10,6 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const users_1 = require("../models/users");
+const helpers_1 = require("./helpers");
 const userStore = new users_1.UsersStore();
 const getAllUsers = (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -29,7 +30,8 @@ const createUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
             password: req.body.password
         };
         const newUser = yield userStore.create(user);
-        res.json(newUser);
+        const token = (0, helpers_1.generateTokenByUser)({ firstname: newUser.firstname, lastname: newUser.lastname });
+        res.json(token);
     }
     catch (error) {
         res.status(400).send(`Could not create user. Error: ${error}`);
@@ -90,18 +92,19 @@ const authenticateUser = (req, res) => __awaiter(void 0, void 0, void 0, functio
         if (!authenticatedUser) {
             return res.status(401).send('Authentication failed');
         }
-        res.json(authenticatedUser);
+        const token = (0, helpers_1.generateTokenByUser)({ firstname: authenticatedUser.firstname, lastname: authenticatedUser.lastname });
+        res.json(token);
     }
     catch (error) {
         res.status(400).send(`Could not authenticate user. Error: ${error}`);
     }
 });
 function userRoutes(app) {
-    app.get('/users', getAllUsers);
-    app.post('/users/create', createUser);
-    app.get('/users/:id', getUserById);
-    app.put('/users/:id', updateUser);
-    app.delete('/users/:id', deleteUser);
+    app.get('/users', helpers_1.verifyToken, getAllUsers);
+    app.post('/users/create', helpers_1.verifyToken, createUser);
+    app.get('/users/:id', helpers_1.verifyToken, getUserById);
+    app.put('/users/:id', helpers_1.verifyToken, updateUser);
+    app.delete('/users/:id', helpers_1.verifyToken, deleteUser);
     app.post('/users/authenticate', authenticateUser);
 }
 exports.default = userRoutes;

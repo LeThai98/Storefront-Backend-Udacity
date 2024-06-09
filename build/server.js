@@ -10,7 +10,7 @@ const user_controllers_1 = __importDefault(require("./handlers/user_controllers"
 const product_controllers_1 = __importDefault(require("./handlers/product_controllers"));
 const order_controllers_1 = __importDefault(require("./handlers/order_controllers"));
 const app = (0, express_1.default)();
-let port = 4200;
+let port = 3000;
 if (process.env.ENV === 'test') {
     port = 3001;
 }

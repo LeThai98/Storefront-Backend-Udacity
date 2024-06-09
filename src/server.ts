@@ -7,7 +7,7 @@ import orderRoutes from './handlers/order_controllers';
 
 
 const app: Application = express();
-let port = 4200;
+let port = 3000;
 if(process.env.ENV  === 'test'){
   port = 3001;
   

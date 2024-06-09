@@ -10,6 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const orders_1 = require("../models/orders");
+const helpers_1 = require("./helpers");
 const orderStore = new orders_1.OrderStore();
 const getAllOrders = (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -82,10 +83,10 @@ const deleteOrder = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     }
 });
 function orderRoutes(app) {
-    app.get('/orders', getAllOrders);
-    app.get('/orders/:id', getOrderById);
-    app.post('/orders/create', createOrder);
-    app.put('/orders/:id', updateOrder);
-    app.delete('/orders/:id', deleteOrder);
+    app.get('/orders', helpers_1.verifyToken, getAllOrders);
+    app.get('/orders/:id', helpers_1.verifyToken, getOrderById);
+    app.post('/orders/create', helpers_1.verifyToken, createOrder);
+    app.put('/orders/:id', helpers_1.verifyToken, updateOrder);
+    app.delete('/orders/:id', helpers_1.verifyToken, deleteOrder);
 }
 exports.default = orderRoutes;

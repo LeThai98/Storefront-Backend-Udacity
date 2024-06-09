@@ -27,10 +27,10 @@ export class OrderStore {
             const sql_OrderProduct =
                 'SELECT * FROM order_products WHERE order_id=($1)';
 
-            const { orders } = await conn.query(sql_Order);
+            const { rows } = await conn.query(sql_Order);
 
             let result: Order[] = [];
-            for (const order of orders) {
+            for (const order of rows) {
                 // Destructuring Assignment : extracts the rows property from the result object and renames it to orderProductRows
                 // const { rows: orderedProductRows } = await conn.query(sql_OrderProduct, [order.id]);
                 // result.push({
@@ -38,9 +38,7 @@ export class OrderStore {
                 //     products: orderedProductRows,
                 //     });
 
-                const orderProducts = await conn.query(sql_OrderProduct, [
-                    order.id,
-                ]);
+                const orderProducts = await conn.query(sql_OrderProduct, [order.id]);
                 const products = orderProducts.rows.map((product: any) => {
                     return {
                         product_id: product.product_id,
@@ -137,7 +135,7 @@ export class OrderStore {
         }
     }
 
-    async delete(id: number): Promise<Order> {
+    async delete(id: number): Promise<Boolean> {
         try {
             const sql = 'DELETE FROM orders WHERE id=($1)';
             const sql_OrderProduct =
@@ -145,31 +143,16 @@ export class OrderStore {
             // @ts-ignore
             const conn = await Client.connect();
 
-            // delete order
-            const result = await conn.query(
-                'SELECT * FROM orders WHERE id=($1)',
-                [id]
-            );
-            const order = result.rows[0];
-            await conn.query(sql, [id]);
-
             // delete order products
-            const deleted = await conn.query(sql_OrderProduct, [id]);
-            const products = deleted.rows.map((product: any) => {
-                return {
-                    product_id: product.product_id,
-                    quantity: product.quantity,
-                };
-            });
+            await conn.query(sql_OrderProduct, [id]);
+            // delete order
+            const result = await conn.query(sql,[id]);
+
+            const order = result.rows[0];
 
             conn.release();
 
-            return {
-                order_id: order.id,
-                user_id: order.user_id,
-                status: order.status,
-                products: products,
-            };
+            return true;
         } catch (err) {
             throw new Error(`Could not delete order ${id}. Error: ${err}`);
         }

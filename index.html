@@ -8,5 +8,32 @@
 <body>
     <h1>Welcome to the Storefront API.</h1>
     <h2>Please use the following routes are supported:</h2>
+
+    <p>User routes</p>
+    <ul>
+        <li><a href="/users/authenticate">Authenticate User [POST] </a></li>
+        <li><a href="/users/create">Create new Users [POST] </a></li>
+        <li><a href="/users/:id"> Get User by Id [GET] </a></li>
+        <li><a href="/users">get All Users [GET] [token required]</a></li>
+        <li><a href="/users/:id"> Update User [PUT] </a></li>
+        <li><a href="/users/:id">Delete User [DELETE] </a></li>
+    </ul>
+
+    <p>Product routes</p>
+    <ul>
+        <li><a href="/products">get All Product [GET] [token required]</a></li>
+        <li><a href="/products/:id">get Product by id [GET] [token required]</a></li>
+        <li><a href="/products/creates"> create new Product [POST] [token required] </a></li>
+        <li><a href="/products/:id">Update Product [PUT] [token required] </a></li>
+        <li><a href="/products/:id">Delete Product [Delete] [token required] </a></li>
+    </ul>
+
+    <p>Order routes</p>
+    <ul>
+        <li><a href="/orders">get All Order [GET][token required]</a></li>
+        <li><a href="/orders/:id">get Order by id [GET][token required] </a></li>
+        <li><a href="/orders/create">create new Order [POST][token required] </a></li>
+        <li><a href="/orders/:id">update Order by Id [PUT][token required]</a></li>
+        <li><a href="/orders/:id">delete Order by Id [DELETE] [token required]</a></li>
 </body>
 </html>

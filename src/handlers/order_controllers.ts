@@ -78,8 +78,8 @@ const deleteOrder = async (req: Request, res: Response) => {
 }
 
 export default function orderRoutes(app: Application){
-    app.get('/orders', getAllOrders);
-    app.get('/orders/:id', getOrderById);
+    app.get('/orders',verifyToken, getAllOrders);
+    app.get('/orders/:id',verifyToken, getOrderById);
     app.post('/orders/create',verifyToken, createOrder);
     app.put('/orders/:id', verifyToken, updateOrder);
     app.delete('/orders/:id',verifyToken, deleteOrder);
