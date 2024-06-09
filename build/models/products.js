@@ -52,7 +52,11 @@ class ProductStore {
                 const sql = 'INSERT INTO products (name, price, categoryid) VALUES($1, $2, $3) RETURNING *';
                 // @ts-ignore
                 const conn = yield database_1.default.connect();
-                const result = yield conn.query(sql, [p.name, p.price, p.categoryid]);
+                const result = yield conn.query(sql, [
+                    p.name,
+                    p.price,
+                    p.categoryid,
+                ]);
                 conn.release();
                 return result.rows[0];
             }
@@ -82,7 +86,12 @@ class ProductStore {
                 const sql = 'UPDATE products SET name=($1), price=($2), categoryid=($3) WHERE id=($4) RETURNING *';
                 // @ts-ignore
                 const conn = yield database_1.default.connect();
-                const result = yield conn.query(sql, [p.name, p.price, p.categoryid, id]);
+                const result = yield conn.query(sql, [
+                    p.name,
+                    p.price,
+                    p.categoryid,
+                    id,
+                ]);
                 conn.release();
                 return result.rows[0];
             }

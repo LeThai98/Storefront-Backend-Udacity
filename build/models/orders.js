@@ -15,8 +15,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.OrderStore = void 0;
 // @ts-ignore
 const database_1 = __importDefault(require("../database"));
-;
-;
 class OrderStore {
     index() {
         return __awaiter(this, void 0, void 0, function* () {
@@ -35,18 +33,20 @@ class OrderStore {
                     //     ...order,
                     //     products: orderedProductRows,
                     //     });
-                    const orderProducts = yield conn.query(sql_OrderProduct, [order.id]);
+                    const orderProducts = yield conn.query(sql_OrderProduct, [
+                        order.id,
+                    ]);
                     const products = orderProducts.rows.map((product) => {
                         return {
                             product_id: product.product_id,
-                            quantity: product.quantity
+                            quantity: product.quantity,
                         };
                     });
                     result.push({
                         order_id: order.id,
                         user_id: order.user_id,
                         status: order.status,
-                        products: products
+                        products: products,
                     });
                 }
                 conn.release();
@@ -72,7 +72,7 @@ class OrderStore {
                 const products = orderProducts.rows.map((product) => {
                     return {
                         product_id: product.product_id,
-                        quantity: product.quantity
+                        quantity: product.quantity,
                     };
                 });
                 conn.release();
@@ -80,7 +80,7 @@ class OrderStore {
                     order_id: order.id,
                     user_id: order.user_id,
                     status: order.status,
-                    products: products
+                    products: products,
                 };
             }
             catch (err) {
@@ -92,7 +92,7 @@ class OrderStore {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const sql = 'INSERT INTO orders (user_id, status) VALUES($1, $2) RETURNING *';
-                const sql_OrderProduct = 'INSERT INTO order_products (order_id, product_id, quantity) VALUES($1, $2, $3)';
+                const sql_OrderProduct = 'INSERT INTO order_products (order_id, product_id, quantity) VALUES($1, $2, $3) RETURNING product_id, quantity';
                 // @ts-ignore
                 const conn = yield database_1.default.connect();
                 // create order
@@ -101,7 +101,11 @@ class OrderStore {
                 // create order products
                 const order_products = [];
                 for (const product of o.products) {
-                    const order_pro = yield conn.query(sql_OrderProduct, [order.id, product.product_id, product.quantity]);
+                    const order_pro = yield conn.query(sql_OrderProduct, [
+                        order.id,
+                        product.product_id,
+                        product.quantity,
+                    ]);
                     order_products.push(order_pro.rows[0]);
                 }
                 conn.release();
@@ -109,7 +113,7 @@ class OrderStore {
                     order_id: order.id,
                     user_id: order.user_id,
                     status: order.status,
-                    products: order_products
+                    products: order_products,
                 };
             }
             catch (err) {
@@ -133,7 +137,7 @@ class OrderStore {
                 const products = deleted.rows.map((product) => {
                     return {
                         product_id: product.product_id,
-                        quantity: product.quantity
+                        quantity: product.quantity,
                     };
                 });
                 conn.release();
@@ -141,7 +145,7 @@ class OrderStore {
                     order_id: order.id,
                     user_id: order.user_id,
                     status: order.status,
-                    products: products
+                    products: products,
                 };
             }
             catch (err) {
@@ -157,12 +161,20 @@ class OrderStore {
                 // @ts-ignore
                 const conn = yield database_1.default.connect();
                 // update order
-                const result = yield conn.query(sql, [o.user_id, o.status, o.order_id]);
+                const result = yield conn.query(sql, [
+                    o.user_id,
+                    o.status,
+                    o.order_id,
+                ]);
                 const order = result.rows[0];
                 // update order products
                 const orderProducts = [];
                 for (const product of o.products) {
-                    const { rows } = yield conn.query(sql_OrderProduct, [product.product_id, product.quantity, o.order_id]);
+                    const { rows } = yield conn.query(sql_OrderProduct, [
+                        product.product_id,
+                        product.quantity,
+                        o.order_id,
+                    ]);
                     orderProducts.push(rows[0]);
                 }
                 conn.release();
@@ -170,7 +182,7 @@ class OrderStore {
                     order_id: order.id,
                     user_id: order.user_id,
                     status: order.status,
-                    products: o.products
+                    products: o.products,
                 };
             }
             catch (err) {

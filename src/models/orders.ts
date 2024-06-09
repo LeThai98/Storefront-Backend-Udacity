@@ -103,7 +103,7 @@ export class OrderStore {
             const sql =
                 'INSERT INTO orders (user_id, status) VALUES($1, $2) RETURNING *';
             const sql_OrderProduct =
-                'INSERT INTO order_products (order_id, product_id, quantity) VALUES($1, $2, $3)';
+                'INSERT INTO order_products (order_id, product_id, quantity) VALUES($1, $2, $3) RETURNING product_id, quantity';
             // @ts-ignore
             const conn = await Client.connect();
 

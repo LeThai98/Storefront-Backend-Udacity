@@ -65,7 +65,7 @@ export class ProductStore {
         }
     }
 
-    async delete(id: string): Promise<Product> {
+    async delete(id: number): Promise<Product> {
         try {
             const sql = 'DELETE FROM products WHERE id=($1)';
             // @ts-ignore
@@ -81,7 +81,7 @@ export class ProductStore {
         }
     }
 
-    async update(id: string, p: BaseProduct): Promise<Product> {
+    async update(id: number, p: BaseProduct): Promise<Product> {
         try {
             const sql =
                 'UPDATE products SET name=($1), price=($2), categoryid=($3) WHERE id=($4) RETURNING *';
