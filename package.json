@@ -4,7 +4,7 @@
   "description": "",
   "main": "server.ts",
   "scripts": {
-    "test": "db-migrate --env test up && jasmine-ts && db-migrate db:drop test",
+    "test": "set ENV=test && db-migrate --env test up && jasmine-ts && db-migrate db:drop test",
     "lint": "eslint . --ext .ts",
     "build": "tsc --esModuleInterop src/server.ts --outDir ./build",
     "prettier": "prettier --single-quote --trailing-comma es5 --write \"src/**/*.ts\"",
